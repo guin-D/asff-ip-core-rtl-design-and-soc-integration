@@ -60,11 +60,14 @@ The design successfully met all timing constraints at a target clock frequency o
 | **TNS** (Total Negative Slack): `0.000 ns` | **THS** (Total Hold Slack): `0.000 ns` |
 | **Timing Met:** Yes | **Timing Met:** Yes |
 
-### 2. Resource Utilization (4x4 Systolic Array)
+### 2. Resource Utilization
 
 | Site Type | Used | Available | Utilization (%) |
 | :--- | :--- | :--- | :--- |
-| **LUTs** | 1,694 | 20,800 | ~8.1% |
-| **FF** | 1,201 | 41,600 | ~2.9% |
+| **LUT** | 14,574 | 53,200 | ~27.39% |
+| **LUTRAM** | 23 | 17,400 | ~0.13% |
+| **FF** | 24,312 | 106,400 | ~22.85% |
+| **BRAM** | 30.5 | 140 | ~21.79% |
+| **DSP** | 195 | 220 | ~88.64% |
 
 ## Supervisor: Nguyen Kiem Hung, Ph.D. - AICS Lab - VNU-UET.
