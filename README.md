@@ -27,6 +27,8 @@ The control parameters $\lambda$ are learned through $1 \times 1$ convolutional 
 
 ## Hardware Architecture
 
+### IP Architecture
+
 In order to achieve the goal of 3 feature layers capable of parallel computation, the block's design will include:
 
  - 3 blocks executing Convolution computation: CONV_0, CONV_1, CONV_2s
@@ -37,4 +39,32 @@ In order to achieve the goal of 3 feature layers capable of parallel computation
  - 2 state machines executing data read and write: LOADFSM, STOREFSM
  - 1 address generation unit: AGU (ADDRESS COUNTER)
 
-The entire computation process of the ASFF block will be controlled by an overall Finite State Machine. This FSM consists of 13 states, with states S_1 to S_3 being the Feature Resizing step (described in (Figure 2.28)), and from state S_4 onwards being the Adaptive Fusion step (described in (Figure 2.29)):
+The entire computation process of the ASFF block will be controlled by an overall Finite State Machine. This FSM consists of 13 states, with states S_1 to S_3 being the Feature Resizing step, and from state S_4 onwards being the Adaptive Fusion step:
+
+### SoC Architecture
+
+This SoC architecture is divided into two main sections: a Processing System (PS) and Programmable Logic (PL). The PS features an ARM Cortex-A9 processor that interfaces with an external SD card and a DDR Controller, which manages external DDR memory. Within the PL, there is my ASFF IP block and a DMA (Direct Memory Access) IP. The ARM processor configures the ASFF IP using an AXI Lite interface and controls the DMA IP via an AXI GP interface. High-speed, continuous data transfer between the ASFF IP and the DMA IP is facilitated by an AXI Stream connection. Additionally, the DMA IP accesses the external DDR memory directly through the DDR Controller utilizing a high-bandwidth AXI HP interface.
+
+---
+
+## Performance & FPGA Implementation
+
+The design was fully verified via Behavioral Simulation and deployed on a SoC hardware architecture. Rapid debugging and preliminary verification were performed using Xilinx ILA and UART interfaces. For exact and comprehensive validation, the complete set of output results was extracted and verified via an SD card. Below are the post-implementation reports extracted from Xilinx Vivado.
+
+### 1. Post-Implementation Timing Summary
+The design successfully met all timing constraints at a target clock frequency of **90 MHz**.
+
+| Setup (Max Delay) | Hold (Min Delay) |
+| :--- | :--- |
+| **WNS** (Worst Negative Slack): `+3.682 ns` | **WHS** (Worst Hold Slack): `+0.067 ns` |
+| **TNS** (Total Negative Slack): `0.000 ns` | **THS** (Total Hold Slack): `0.000 ns` |
+| **Timing Met:** Yes | **Timing Met:** Yes |
+
+### 2. Resource Utilization (4x4 Systolic Array)
+
+| Site Type | Used | Available | Utilization (%) |
+| :--- | :--- | :--- | :--- |
+| **LUTs** | 1,694 | 20,800 | ~8.1% |
+| **FF** | 1,201 | 41,600 | ~2.9% |
+
+## Supervisor: Nguyen Kiem Hung, Ph.D. - AICS Lab - VNU-UET.
