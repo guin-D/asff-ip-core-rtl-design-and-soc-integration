@@ -14,5 +14,6 @@ The ASFF module is proposed to learn how to filter out conflicting information i
 
  - Feature resizing: To fuse features, data from different layers must first be brought to the same resolution and number of channels
  - Adaptive fusion: At each spatial coordinate on the feature map, the network will automatically learn spatial weights to optimize the combination of information from the layers. Let $x_{ij}^{n \rightarrow l}$ be the feature vector at position $(i, j)$ resized from layer $n$ to layer $l$, where $\alpha, \beta, \gamma$ are the spatial weights representing the contribution level of each respective feature layer. The output of the adaptive fusion process at layer $l$, denoted as $y_{ij}^l$, is calculated according to the formula:
-$$y_{ij}^l = \alpha_{ij}^l \cdot x_{ij}^{1 \rightarrow l} + \beta_{ij}^l \cdot x_{ij}^{2 \rightarrow l} + \gamma_{ij}^l \cdot x_{ij}^{3 \rightarrow l} \quad (1)$$
+ - 
+$$y_{ij}^l = \alpha_{ij}^l \cdot x_{ij}^{1 \rightarrow l} + \beta_{ij}^l \cdot x_{ij}^{2 \rightarrow l} + \gamma_{ij}^l \cdot x_{ij}^{3 \rightarrow l} $$
  
