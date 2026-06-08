@@ -56,7 +56,7 @@ The design successfully met all timing constraints at a target clock frequency o
 
 | Setup (Max Delay) | Hold (Min Delay) |
 | :--- | :--- |
-| **WNS** (Worst Negative Slack): `+3.682 ns` | **WHS** (Worst Hold Slack): `+0.067 ns` |
+| **WNS** (Worst Negative Slack): `0.260 ns` | **WHS** (Worst Hold Slack): `+0.031 ns` |
 | **TNS** (Total Negative Slack): `0.000 ns` | **THS** (Total Hold Slack): `0.000 ns` |
 | **Timing Met:** Yes | **Timing Met:** Yes |
 
