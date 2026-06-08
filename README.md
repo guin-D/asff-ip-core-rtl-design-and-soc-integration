@@ -7,10 +7,14 @@ In deep learning models (particularly object detection networks like YOLO), mult
 
 This project provides a fully hardware-accelerated, highly parallel ASFF module designed for FPGA and ASIC implementation. By optimizing the algorithmic dataflow and integrating the core into an SoC environment (e.g., Zynq-7000 series), this design significantly reduces inference latency while maintaining high precision for computer vision tasks.
 
+![ASFF Overview](image/nor.png)
+
 ---
 
 ## Dataflow
 The ASFF module is proposed to learn how to filter out conflicting information in a data-driven manner, helping to improve the scale invariance of features with negligible additional computational overhead. The implementation process of ASFF consists of two main steps:
+
+![ASFF Dataflow](image/gitflow.png)
 
  - Feature resizing: To fuse features, data from different layers must first be brought to the same resolution and number of channels
  - Adaptive fusion: At each spatial coordinate on the feature map, the network will automatically learn spatial weights to optimize the combination of information from the layers. Let $x_{ij}^{n \rightarrow l}$ be the feature vector at position $(i, j)$ resized from layer $n$ to layer $l$, where $\alpha, \beta, \gamma$ are the spatial weights representing the contribution level of each respective feature layer. The output of the adaptive fusion process at layer $l$, denoted as $y_{ij}^l$, is calculated according to the formula:
@@ -39,11 +43,17 @@ In order to achieve the goal of 3 feature layers capable of parallel computation
  - 2 state machines executing data read and write: LOADFSM, STOREFSM
  - 1 address generation unit: AGU (ADDRESS COUNTER)
 
+![ASFF IP Architecture Overview](image/top.png)
+
 The entire computation process of the ASFF block will be controlled by an overall Finite State Machine. This FSM consists of 13 states, with states S_1 to S_3 being the Feature Resizing step, and from state S_4 onwards being the Adaptive Fusion step:
+
+![FSM Overview](image/fsm_top.png)
 
 ### SoC Architecture
 
 This SoC architecture is divided into two main sections: a Processing System (PS) and Programmable Logic (PL). The PS features an ARM Cortex-A9 processor that interfaces with an external SD card and a DDR Controller, which manages external DDR memory. Within the PL, there is my ASFF IP block and a DMA (Direct Memory Access) IP. The ARM processor configures the ASFF IP using an AXI Lite interface and controls the DMA IP via an AXI GP interface. High-speed, continuous data transfer between the ASFF IP and the DMA IP is facilitated by an AXI Stream connection. Additionally, the DMA IP accesses the external DDR memory directly through the DDR Controller utilizing a high-bandwidth AXI HP interface.
+
+![SoC Architecture Overview](image/gitsoc.png)
 
 ---
 
